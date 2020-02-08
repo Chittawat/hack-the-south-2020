@@ -1,24 +1,28 @@
-from newsapi import NewsApiClient
+"""
+Server File
+- Handles Entering and Exiting of the Backend
+"""
 
-# Init
-newsapi = NewsApiClient(api_key='API_KEY')
+from flask import Flask, render_template,request
+from services import get_news
 
-# /v2/top-headlines
-top_headlines = newsapi.get_top_headlines(q='bitcoin',
-                                          sources='bbc-news,the-verge',
-                                          category='business',
-                                          language='en',
-                                          country='us')
+app = Flask(__name__)
 
-# /v2/everything
-all_articles = newsapi.get_everything(q='bitcoin',
-                                      sources='bbc-news,the-verge',
-                                      domains='bbc.co.uk,techcrunch.com',
-                                      from_param='2017-12-01',
-                                      to='2017-12-12',
-                                      language='en',
-                                      sort_by='relevancy',
-                                      page=2)
+@app.route('/')
+def index():
+	return "hello World"
 
-# /v2/sources
-sources = newsapi.get_sources()
+@app.route('/info/<country>')
+def news(country):
+	location=country
+	news_data = get_news(str(location))
+	news=[]
+	for i in news_data:
+		newsinfo={'source':i[0],'title':i[1],'link':i[2],'detail':i[3]}
+		news.append(newsinfo)
+	return render_template('news.html', post=news)
+	
+if __name__ == '__main__':
+	app.run(debug=True)
+
+   
