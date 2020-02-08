@@ -9,3 +9,4 @@
 
 ## Main Project Idea
 To create a Forex predictive module and display them in the web.
+
