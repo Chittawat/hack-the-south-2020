@@ -5,7 +5,7 @@
 [8 Feb 2020 to 9 Feb 2020]
 
 ## Venue
-* Floor 3, Building 59 Zepler Building, University of Southampton 
+Floor 3, Building 59 Zepler Building, University of Southampton 
 
 ## Team
 * Michael Mak   @
