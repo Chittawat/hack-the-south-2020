@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return "hello World"
+	return  render_template('TechanJS_Plot_Zooming_test.html')
 
 @app.route('/info/<country>')
 def news(country):
