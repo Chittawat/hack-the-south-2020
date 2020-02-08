@@ -3,7 +3,7 @@ Server File
 - Handles Entering and Exiting of the Backend
 """
 
-from flask import Flask
+from flask import Flask, render_template
 from services import get_news
 
 app = Flask(__name__)
