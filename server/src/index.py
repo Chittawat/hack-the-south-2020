@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route('/info')
 def news(country):
     news_data = get_news(country)
-    return render.template('index.html', posts=news_data)
+    return render.template('../../webpage/news.html', posts=news_data)
 
 
    
