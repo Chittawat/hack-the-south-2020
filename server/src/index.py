@@ -34,6 +34,7 @@ def index():
 @app.route('/info/<country>')
 def get_info(country):
 	location=country
+	area=str(country)
 	news_data = get_news(str(location))
 	news=[]
 	for i in news_data:
@@ -43,11 +44,11 @@ def get_info(country):
 
 	predictions = get_predictions(fin_data, country)
 
-	return render_template('news.html', post=[news, fin_data, predictions])
+	return render_template('news.html', post=[news, fin_data, predictions,area])
 
 @app.route('/about')
 def get_about():
-	render_template('about.html')
+	return render_template('about.html')
 	
 if __name__ == '__main__':
 	app.run(debug=True)

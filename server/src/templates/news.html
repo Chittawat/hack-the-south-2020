@@ -48,12 +48,21 @@
 
   var forex={{post[2]|safe}}
   var forexdat=[];
-  for(var i=0;i<forex[0].length;i++){
-    var data=[i,forex[0][i][0],forex[1][i][0]];
+  var forexdatp=[];
+  for(var i=0;i<forex[1].length;i++){
+    var data;
+    if(i<60){
+      data=[i,0,forex[1][i][0]];
+      console.log(forex[1][i][0])
+    }else{
+      data =[i,forex[0][i-60][0],forex[1][i][0]];
+    }
     forexdat.push(data);
   }
 
-  console.log(forexdat)
+  var country="{{post[3]|safe}}"
+
+  var verview = (country=="jp")?{max:700,min:0}:((country=="nz")|(country=="au"))?{max:1.5,min:0}:{max:3,min:0}
 
   function drawbChart() {
 
@@ -68,8 +77,8 @@
           title: 'Forex Prediction',
           curveType: 'function',
           legend: { position: 'bottom' },
-          hAxis:{viewWindow:{max:40,min:0}},
-          vAxis:{viewWindow:{max:5,min:0}}
+          hAxis:{viewWindow:{max:90,min:0},title:'Days ahead in the future'},
+          vAxis:{viewWindow:verview,title:'Price (USD)'}
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_divb'));

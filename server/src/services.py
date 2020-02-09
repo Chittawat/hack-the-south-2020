@@ -63,8 +63,9 @@ def get_predictions(country_array, country):
         test_generator = np.append(test_generator[:,1:,:],[[pred_list[i]]],axis=1)
 
     pred_list = scaler.inverse_transform(pred_list)
+    test_data = np.concatenate((train_data[-90:-30], test_data), axis=None)
+    test_data = [[x] for x in test_data]
 
-    full_data = [pred_list.tolist(), test_data.tolist()]
+    full_data = [pred_list.tolist(), test_data]
 
     return full_data
-    # return pred_list #list
