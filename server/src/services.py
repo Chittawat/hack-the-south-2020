@@ -24,7 +24,7 @@ def get_news(country):
 
 def get_fin_data(country):
     path = os.getcwd()
-    df = pd.read_csv(path + f"/server/src/csv/{country}.csv", header=1)
+    df = pd.read_csv(path + f"/csv/{country}.csv", header=1)
     df = df.rename(columns={"Unnamed: 0": "Date"})
     date_array = df['Date'].to_list()
     high_array = df['high'].to_list()
