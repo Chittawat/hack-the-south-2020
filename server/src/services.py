@@ -24,7 +24,7 @@ def get_news(country):
 
 def get_fin_data(country):
     path = os.getcwd()
-    df = pd.read_csv(path + f"/csv/{country}.csv", header=1)
+    df = pd.read_csv(path + f"/server/src/csv/{country}.csv", header=1)
     df = df.rename(columns={"Unnamed: 0": "Date"})
     date_array = df['Date'].to_list()
     high_array = df['high'].to_list()
@@ -39,7 +39,7 @@ def get_fin_data(country):
     return data_array
 
 def get_predictions(country_array, country):
-    n_input = 30
+    n_input = 60
     # change to numpy array for ease of access
     # index 0 = date, index 1 = mid point
     data = np.array(country_array)[:, 5]
@@ -62,7 +62,7 @@ def get_predictions(country_array, country):
         pred_list.append(model.predict(test_generator)[0]) 
         test_generator = np.append(test_generator[:,1:,:],[[pred_list[i]]],axis=1)
 
-    pred_list = scaler.inverse_transform(pred_list)
+    pred_list = scaler.inverse_transform(pred_list)[]
 
     full_data = [pred_list.tolist(), test_data.tolist()]
 
