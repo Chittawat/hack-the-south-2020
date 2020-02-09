@@ -44,6 +44,10 @@ def get_info(country):
 	predictions = get_predictions(fin_data, country)
 
 	return render_template('news.html', post=[news, fin_data, predictions])
+
+@app.route('/about')
+def get_about():
+	render_template('about.html')
 	
 if __name__ == '__main__':
 	app.run(debug=True)
