@@ -1,113 +1,143 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>
-		news
-	</title>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-  var fin = {{post[1]|safe}};
-  var finext=[];
-  console.log(fin[0]);
-  for(var i=0;i<fin.length;i++){
-    fin[i].pop()
-  }
-
-      
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable(fin, true);
-
-    var options = {
-      legend:'none',
-      candlestick: {
-            fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
-            risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
-          }
-    };
-
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-    chart.draw(data, options);
-  }
-    </script>
-</head>
-<body>
-	<script src="https://d3js.org/d3.v4.js"></script>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-  <div class="row">
-    <div class="col-sm-4" 
-    style="
-    border: 2px solid gray;
-    padding:0;
-    height:1260px;
-    overflow-y:scroll; ">
-		<ul>
-    <li class="news" style="text-align: center;"><h1>News</h1></li>
-    {% for x in range(0,5):%}
-      <li class="news">
-        <h3><a href="{{ post[0][x].link }}" style="color: black;">{{ post[0][x].title }}</a></h3>
-        <p> Source :{{ post[0][x].source }}</p>
-        <p> Detail: {{post[0][x].detail}}</p>
-      </li>
-    {% endfor %}
-
-		</ul>
-    </div>
-    <div class="col-sm-8">
-		<!-- <div id="my_dataviz" style="width:100%;border: 1px solid black;"></div> -->
-    <div id="chart_div" style="width: 1600px; height: 900px;"></div>
-    <div style="width:"></div>
-    </div>
-  </div>
-
-  <!-- Load d3.js -->
-
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<title>News</title>
+	
+		<!-- Link style.css and Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
+		<!-- Load Google Chart JS -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+		<!-- JavaScript for drawing Candlestick chart using Google Chart JS -->
+		<script type="text/javascript">
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+		
+			var fin   = {{post[1]|safe}};
+			var finext=[];
+			console.log(fin[0]);
+			for(var i=0;i<fin.length;i++){
+				fin[i].pop()
+			}
+
+			function testButton() {
+				document.getElementById("OneWeekPlot").innerHTML = "Feature to be Implemented";
+				document.getElementById("OneMonthPlot").innerHTML = "Feature to be Implemented";
+				document.getElementById("OneYearPlot").innerHTML = "Feature to be Implemented";
+				document.getElementById("FiveYearPlot").innerHTML = "Feature to be Implemented";
+			}
+	  
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable(fin, true);
+		
+				var options = {
+				  title: 'Candlestick Chart',
+				  vAxis: { title: 'Currency Price with respect to 1 USD'},
+				  hAxis: { title: 'Date'},
+				  legend:'none',
+				  // animation: {duration:1000, easing: 'inAndOut', startup: true}, // too much things to plot
+				  candlestick: {
+					fallingColor: { strokeWidth: 0, fill: '#a52714' }, 	// red
+					risingColor : { strokeWidth: 0, fill: '#0f9d58' },  // green
+				  }			  
+				};
+		
+				var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+		
+				chart.draw(data, options);
+			}
+		</script>
+	</head>
+
+	<body>
+	<!-- <script src="https://d3js.org/d3.v4.js"></script> -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"    aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Home</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Currency Exchange
+						<span class="sr-only">(current)</span>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">EUR/USD</a>
+							<a class="dropdown-item" href="#">USD/JPY</a>
+							<a class="dropdown-item" href="#">GBP/USD</a>
+							<a class="dropdown-item" href="#">AUD/USD</a>
+							<a class="dropdown-item" href="#">USD/CHF</a>
+							<a class="dropdown-item" href="#">NZD/USD</a>
+							<a class="dropdown-item" href="#">USD/CAD</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">About Us</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-lg-4" 
+			style="
+			  border: 2px solid gray;
+			  padding:0;
+			  /*height:1260px;*/
+			  /*height:'h-40';*/
+			  overflow-y:auto;
+			">
+				<ul>
+					<li class="news" style="text-align: center;"><h1 class="display-3">News</h1></li>
+					{% for x in range(0,5):%}
+					<li class="news">
+					  <h3><a href="{{ post[0][x].link }}" style="color: black;">{{ post[0][x].title }}</a></h3>
+					  <!-- <p> Source :{{ post[0][x].source }}</p> -->
+					  <!-- <p> Detail: {{post[0][x].detail}}</p> -->
+					  <p class="h5">{{post[0][x].detail}}</p>
+					  <footer>Source: {{ post[0][x].source }}</footer>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<div class="col-lg-8">
+			<!-- <div id="my_dataviz" style="width:100%;border: 1px solid black;"></div> -->
+				<div class="sticky-top" id="chart_div" style="width: 100%; height: 50%;"></div>
+				<div style="width:"></div>
+				<div class="container">
+					<div class="row">
+						<div class="col text-center">
+							<button id="OneWeekPlot" onclick=testButton() type="button" class="btn btn-outline-info">1 week</button>
+							<button id="OneMonthPlot" onclick=testButton() type="button" class="btn btn-outline-info">1 month</button>
+							<button id="OneYearPlot" onclick=testButton() type="button" class="btn btn-outline-info">1 year</button>
+							<button id="FiveYearPlot" onclick=testButton() type="button" class="btn btn-outline-info">5 years</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+	<!-- Load self-defined app.js -->
 	<script src={{url_for('static',filename='app.js')}}></script>
-  <script type="text/javascript">
-  </script>
+	<script type="text/javascript"> </script>
 </body>
 </html>
