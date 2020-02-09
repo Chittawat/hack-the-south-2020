@@ -10,7 +10,7 @@ Floor 3, Building 59 Zepler Building, University of Southampton
 ## Team
 * Michael Mak   @
 * Chittawat     @Chittawat
-* Yue Shuen     @
+* Yue Shuen     @kewyueshuen
 * Eugene Teoh   @
 * Vincent Tan   @SIGMAZOX
 
