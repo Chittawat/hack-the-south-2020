@@ -4,8 +4,7 @@ Services File
 """
 import os
 import pandas as pd
-# import tensorflow as tf
-# from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator 
+import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from newsapi import NewsApiClient
@@ -39,25 +38,33 @@ def get_fin_data(country):
 
     return data_array
 
-# def get_predictions(country_array):
-#     n_input = 30
-#     # change to numpy array for ease of access
-#     # index 0 = date, index 1 = mid point
-#     data = np.array(country_array)[:, 5]
-#     train_data = data[:11000].reshape(11000, 1)
-#     # path of model file
-#     model_path = os.path.abspath('model/gbp_usd.h5')
-#     model = tf.keras.models.load_model(model_path)
-#     scaler = MinMaxScaler()
-#     smoothing_window_size = 2500
-#     for di in range(0,10000,smoothing_window_size):
-#         scaler.fit(train_data[di:di+smoothing_window_size,:])
-#         train_data[di:di+smoothing_window_size,:] = scaler.transform(train_data[di:di+smoothing_window_size,:])
+def get_predictions(country_array, country):
+    n_input = 30
+    # change to numpy array for ease of access
+    # index 0 = date, index 1 = mid point
+    data = np.array(country_array)[:, 5]
+    train_data = data[-10000:].reshape(10000, 1).astype(float)
+    # path of model file
+    model_path = os.path.abspath(f'model/{country}.h5')
+    model = tf.keras.models.load_model(model_path)
+    scaler = MinMaxScaler()
+    smoothing_window_size = 2500
+    for di in range(0,10000,smoothing_window_size):
+        scaler.fit(train_data[di:di+smoothing_window_size,:])
+        train_data[di:di+smoothing_window_size,:] = scaler.transform(train_data[di:di+smoothing_window_size,:])
     
-#     test_data = train_data[-n_input:]
-#     test_generator = TimeseriesGenerator(test_data, test_data, length=30, batch_size=1)
-    
+    test_data = scaler.inverse_transform(train_data[-n_input:])
+    test_generator = test_data.reshape((1, n_input, 1))
 
-#     return 'test' #list
+    pred_list = []
 
-# get_predictions(get_fin_data('gb'))
+    for i in range(n_input):   
+        pred_list.append(model.predict(test_generator)[0]) 
+        test_generator = np.append(test_generator[:,1:,:],[[pred_list[i]]],axis=1)
+
+    pred_list = scaler.inverse_transform(pred_list)
+
+    full_data = [pred_list.tolist(), test_data.tolist()]
+
+    return full_data
+    # return pred_list #list

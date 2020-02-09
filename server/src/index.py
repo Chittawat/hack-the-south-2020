@@ -4,7 +4,7 @@ Server File
 """
 
 from flask import Flask, render_template,request
-from services import get_news, get_fin_data
+from services import get_news, get_fin_data, get_predictions
 
 app = Flask(__name__)
 
@@ -31,10 +31,9 @@ def get_info(country):
 		news.append(newsinfo)
 	fin_data = get_fin_data(str(location))
 
-	predictions=0
-	# predictions = get_predictions(country)
+	predictions = get_predictions(fin_data, country)
 
-	return render_template('news.html', post=[news, fin_data,predictions])
+	return render_template('news.html', post=[news, fin_data, predictions])
 	
 if __name__ == '__main__':
 	app.run(debug=True)
