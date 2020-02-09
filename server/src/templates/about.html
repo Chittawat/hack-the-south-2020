@@ -14,44 +14,69 @@
 	</head>
 	
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light position">
+			<a class="navbar-brand" href="http://127.0.0.1:5000/">FutureRex</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"    aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 		
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="#">Home</a>
+					<li class="nav-item active">
+						<a class="nav-link" href="http://127.0.0.1:5000/">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="    false">
 							Currency Exchange
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">EUR/USD</a>
-							<a class="dropdown-item" href="#">USD/JPY</a>
-							<a class="dropdown-item" href="#">GBP/USD</a>
-							<a class="dropdown-item" href="#">AUD/USD</a>
-							<a class="dropdown-item" href="#">USD/CHF</a>
-							<a class="dropdown-item" href="#">NZD/USD</a>
-							<a class="dropdown-item" href="#">USD/CAD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/us">EUR/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/jp">USD/JPY</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/gb">GBP/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/au">AUD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ch">USD/CHF</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/nz">NZD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ca">USD/CAD</a>
 						</div>
 					</li>
-					<li class="nav-item active">
-						<a class="nav-link" href="#">About Us <span class="sr-only">(current)</span></a>
+					<li class="nav-item">
+						<a class="nav-link" href="#">About Us</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 
-		<p>Insert info about us here</p>
+		<h1 class = "display-2 text-center">About Us</h1>
+		<p class = "h3 text-center">This project was started and developed by the following group of following people:</p>
+		
+		<div class="container w-25">
+			<div class="text-center py-2">
+				<button type="button" class="btn btn-lg btn-outline-primary btn-block">Michael Mak</button>
+			</div>
+			<div class="text-center py-2">
+				<button type="button" class="btn btn-lg btn-outline-primary btn-block">Eugene Teoh</button>
+			</div>
+			<div class="text-center py-2">
+				<button type="button" class="btn btn-lg btn-outline-primary btn-block">Chittawat</button>
+			</div>
+			<div class="text-center py-2">
+				<button type="button" class="btn btn-lg btn-outline-primary btn-block">Yue Shuen</button>
+			</div>
+			<div class="text-center py-2">
+				<button type="button" class="btn btn-lg btn-outline-primary btn-block">Vincent Tan</button>
+			</div>
+		</div>
 
+		<div class = "container w-50 pt-2">
+			<p class = "h5 text-center">We are just a group of Electrical and Electronic Engineering students of University of Southampton of the ECS Department who often question our very existence every once in a while when we had to create software-based project that are often favourable for the ComSci students.</p>
+			<h6 class = "text-center pt-4">Source code can be found <a href="https://github.com/Chittawat/hack-the-south-2020" target="_blank">here!</a></h6>
+		</div>
+
+		
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	</body>
 </html>

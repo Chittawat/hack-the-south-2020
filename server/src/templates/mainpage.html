@@ -1,16 +1,43 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 		<!-- Link style.css and Bootstrap CSS -->
-		<link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="ha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
 
 		<title>Mainpage</title>
+		    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      var i=1;
+      var graphdata={{clist[1].PGph|safe}}
+      console.log(graphdata)
+
+
+      function drawChart(i) {
+        var data = google.visualization.arrayToDataTable(graphdata);
+
+        var options = {
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
+
+        chart.draw(data, options);
+      }
+    </script>
 	</head>
 
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light position">
+			<a class="navbar-brand" href="http://127.0.0.1:5000/">FutureRex</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"    aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -18,20 +45,20 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="http://127.0.0.1:5000/">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="    false">
 							Currency Exchange
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">EUR/USD</a>
-							<a class="dropdown-item" href="#">USD/JPY</a>
-							<a class="dropdown-item" href="#">GBP/USD</a>
-							<a class="dropdown-item" href="#">AUD/USD</a>
-							<a class="dropdown-item" href="#">USD/CHF</a>
-							<a class="dropdown-item" href="#">NZD/USD</a>
-							<a class="dropdown-item" href="#">USD/CAD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/us">EUR/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/jp">USD/JPY</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/gb">GBP/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/au">AUD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ch">USD/CHF</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/nz">NZD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ca">USD/CAD</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -41,77 +68,40 @@
 			</div>
 		</nav>
 
-		<h1>Hack the South 2020</h1>
-		<p>Live foreign currency exchange rates</p>
+		<h1 class = "display-1 text-center">Hack the South 2020</h1>
+		<h2 class = "text-center">Live foreign currency exchange rate and future preditions.</h2>
 		
-		<table class="table" border="1">
+		<table class="table table-hover w-auto">
 			  <thead>
 				<tr>
-				  <td scope="col">#</th>
-				  <td scope="col">Currency Exchange</th>
-				  <td scope="col">Price</th>
-				  <td scope="col">Price (Inverse)</th>
-				  <td scope="col">Percent Change (24H)</th>
-				  <td scope="col">Price Graph</th>
+				  <th scope="col">#</th>
+				  <th scope="col">Currency Exchange</th>
+				  <th scope="col">Price</th>
+				  <th scope="col">Price (Inverse)</th>
+				  <th scope="col">Percent Change (24H)</th>
+				  <th scope="col">Predicted Mid Price (24H)</th>
+				  <th scope="col">Predicted Mid Price (5D)</th>
+				  <th scope="col">Predicted Mid Price (1M)</th>
+				 <!--  <th scope="col">Price Graph</th> -->
 				</tr>
 			  </thead>
 			  <tbody>
+			  	 
+				{%for i in clist :%}
 				<tr>
 				  <td scope="row">1</td>
-				  <td><a href="https://www.w3schools.com">EUR/USD</a></td>
-				  <td>Price_EUR_USD</td>
-				  <td>PriceInv_EUR_USD</td>
-				  <td>PChange24H_EUR_USD</td>
-				  <td>PGph_EUR_USD</td>
+				  <td><a href="http://127.0.0.1:5000/info/{{i.country}}">{{i.conversion}}</a></td>
+				  <td>{{i.Price}}</td>
+				  <td>{{i.PriceInv}}</td>
+				  <td>{{i.PChange}}</td>
+				  <td>{{i.PMP24H}}</td>
+				  <td>{{i.PMP5D}}</td>
+				  <td>{{i.PMP1M}}</td>
+				  <!--<td><div id="curve_chart1" style="width: 200px; height: 100px"></div></td>-->
 				</tr>
-				<tr>
-				  <td scope="row">2</td>
-				  <td><a href="https://www.w3schools.com">USD/JPY</a></td>
-				  <td>Price_USD_JPY</td>
-				  <td>PriceInv_USD_JPY</td>
-				  <td>PChange24H_USD_JPY</td>
-				  <td>PGph_USD_JPY</td>
-				</tr>
-				<tr>
-				  <td scope="row">3</td>
-				  <td><a href="https://www.w3schools.com">GBP/USD</a></td>
-				  <td>Price_GBP_JPY</td>
-				  <td>PriceInv_GBP_JPY</td>
-				  <td>PChange24H_GBP_JPY</td>
-				  <td>PGph_GBP_JPY</td>
-				</tr>
-				<tr>
-				  <td scope="row">4</td>
-				  <td><a href="https://www.w3schools.com">AUD/USD</a></td>
-				  <td>Price_AUD_USD</td>
-				  <td>PriceInv_AUD_USD</td>
-				  <td>PChange24H_AUD_USD</td>
-				  <td>PGph_AUD_USD</td>
-				</tr>
-				<tr>
-				  <td scope="row">5</td>
-				  <td><a href="https://www.w3schools.com">USD/CHF</a></td>
-				  <td>Price_USD_CHF</td>
-				  <td>PriceInv_USD_CHF</td>
-				  <td>PChange24H_USD_CHF</td>
-				  <td>PGph_USD_CHF</td>
-				</tr>
-				<tr>
-				  <td scope="row">6</td>
-				  <td><a href="https://www.w3schools.com">NZD/USD</a></td>
-				  <td>Price_NZD_USD</td>
-				  <td>PriceInv_NZD_USD</td>
-				  <td>PChange24H_NZD_USD</td>
-				  <td>PGph_NZD_USD</td>
-				</tr>
-				<tr>
-				  <td scope="row">6</td>
-				  <td><a href="https://www.w3schools.com">USD/CAD</a></td>
-				  <td>Price_USD_CAD</td>
-				  <td>PriceInv_USD_CAD</td>
-				  <td>PChange24H_USD_CAD</td>
-				  <td>PGph_USD_CAD</td>
-				</tr>
+				{%endfor%}
+				
+
 			  </tbody>
 		</table>
 
