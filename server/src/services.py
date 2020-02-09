@@ -4,6 +4,10 @@ Services File
 """
 import os
 import pandas as pd
+import tensorflow as tf
+from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator 
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
 from newsapi import NewsApiClient
 
 newsapi = NewsApiClient(api_key='b1d0aa01a278480a8ad685eb161edcba')
@@ -33,5 +37,27 @@ def get_fin_data(country):
     for index, value in enumerate(date_array):
         data_array.append([value, low_array[index], open_array[index], last_price_array[index], high_array[index], mid_average_point_array[index]])
 
-    print(data_array)
     return data_array
+
+def get_predictions(country_array):
+    n_input = 30
+    # change to numpy array for ease of access
+    # index 0 = date, index 1 = mid point
+    data = np.array(country_array)[:, 5]
+    train_data = data[:11000].reshape(11000, 1)
+    # path of model file
+    model_path = os.path.abspath('model/gbp_usd.h5')
+    model = tf.keras.models.load_model(model_path)
+    scaler = MinMaxScaler()
+    smoothing_window_size = 2500
+    for di in range(0,10000,smoothing_window_size):
+        scaler.fit(train_data[di:di+smoothing_window_size,:])
+        train_data[di:di+smoothing_window_size,:] = scaler.transform(train_data[di:di+smoothing_window_size,:])
+    
+    test_data = train_data[-n_input:]
+    test_generator = TimeseriesGenerator(test_data, test_data, length=30, batch_size=1)
+    
+
+    return 'test' #list
+
+get_predictions(get_fin_data('gb'))

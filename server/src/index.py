@@ -22,7 +22,9 @@ def get_info(country):
 		news.append(newsinfo)
 	fin_data = get_fin_data(str(location))
 
-	return render_template('news.html', post=[news, fin_data])
+	predictions = get_predictions(country)
+
+	return render_template('news.html', post=[news, fin_data, predictions])
 	
 if __name__ == '__main__':
 	app.run(debug=True)
