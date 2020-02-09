@@ -10,6 +10,29 @@
 		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
 
 		<title>Mainpage</title>
+		    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      var i=1;
+      var graphdata={{clist[1].PGph|safe}}
+      console.log(graphdata)
+
+
+      function drawChart(i) {
+        var data = google.visualization.arrayToDataTable(graphdata);
+
+        var options = {
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
+
+        chart.draw(data, options);
+      }
+    </script>
 	</head>
 
 	<body>
@@ -29,13 +52,13 @@
 							Currency Exchange
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">EUR/USD</a>
-							<a class="dropdown-item" href="#">USD/JPY</a>
-							<a class="dropdown-item" href="#">GBP/USD</a>
-							<a class="dropdown-item" href="#">AUD/USD</a>
-							<a class="dropdown-item" href="#">USD/CHF</a>
-							<a class="dropdown-item" href="#">NZD/USD</a>
-							<a class="dropdown-item" href="#">USD/CAD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/us">EUR/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/jp">USD/JPY</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/gb">GBP/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/au">AUD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ch">USD/CHF</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/nz">NZD/USD</a>
+							<a class="dropdown-item" href="http://127.0.0.1:5000/info/ca">USD/CAD</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -59,24 +82,28 @@
 				  <th scope="col">Predicted Mid Price (24H)</th>
 				  <th scope="col">Predicted Mid Price (5D)</th>
 				  <th scope="col">Predicted Mid Price (1M)</th>
-				  <th scope="col">Price Graph</th>
+				 <!--  <th scope="col">Price Graph</th> -->
 				</tr>
 			  </thead>
 			  <tbody>
+			  	 
+				{%for i in clist :%}
 				<tr>
 				  <td scope="row">1</td>
-				  <td><a href="#">EUR/USD</a></td>
-				  <td>Price_EUR_USD</td>
-				  <td>PriceInv_EUR_USD</td>
-				  <td>PChange24H_EUR_USD</td>
-				  <td>PMP24H_EUR_USD</td>
-				  <td>PMP5D_EUR_USD</td>
-				  <td>PMP1M_EUR_USD</td>
-				  <td>PGph_EUR_USD</td>
+				  <td><a href="http://127.0.0.1:5000/info/{{i.country}}">{{i.conversion}}</a></td>
+				  <td>{{i.Price}}</td>
+				  <td>{{i.PriceInv}}</td>
+				  <td>{{i.PChange}}</td>
+				  <td>{{i.PMP24H}}</td>
+				  <td>{{i.PMP5D}}</td>
+				  <td>{{i.PMP1M}}</td>
+				  <!--<td><div id="curve_chart1" style="width: 200px; height: 100px"></div></td>-->
 				</tr>
-				<tr>
+				{%endfor%}
+				
+<!-- 				<tr>
 				  <td scope="row">2</td>
-				  <td><a href="https://www.w3schools.com">USD/JPY</a></td>
+				  <td><a href="http://127.0.0.1:5000/info/jp">USD/JPY</a></td>
 				  <td>Price_USD_JPY</td>
 				  <td>PriceInv_USD_JPY</td>
 				  <td>PChange24H_USD_JPY</td>
@@ -87,7 +114,7 @@
 				</tr>
 				<tr>
 				  <td scope="row">3</td>
-				  <td><a href="https://www.w3schools.com">GBP/USD</a></td>
+				  <td><a href="http://127.0.0.1:5000/info/gb">GBP/USD</a></td>
 				  <td>Price_GBP_USD</td>
 				  <td>PriceInv_GBP_USD</td>
 				  <td>PChange24H_GBP_USD</td>
@@ -98,7 +125,7 @@
 				</tr>
 				<tr>
 				  <td scope="row">4</td>
-				  <td><a href="https://www.w3schools.com">AUD/USD</a></td>
+				  <td><a href="http://127.0.0.1:5000/info/au">AUD/USD</a></td>
 				  <td>Price_AUD_USD</td>
 				  <td>PriceInv_AUD_USD</td>
 				  <td>PChange24H_AUD_USD</td>
@@ -109,7 +136,7 @@
 				</tr>
 				<tr>
 				  <td scope="row">5</td>
-				  <td><a href="https://www.w3schools.com">USD/CHF</a></td>
+				  <td><a href="http://127.0.0.1:5000/info/ch">USD/CHF</a></td>
 				  <td>Price_USD_CHF</td>
 				  <td>PriceInv_USD_CHF</td>
 				  <td>PChange24H_USD_CHF</td>
@@ -120,7 +147,7 @@
 				</tr>
 				<tr>
 				  <td scope="row">6</td>
-				  <td><a href="https://www.w3schools.com">NZD/USD</a></td>
+				  <td><a href="http://127.0.0.1:5000/info/nz">NZD/USD</a></td>
 				  <td>Price_NZD_USD</td>
 				  <td>PriceInv_NZD_USD</td>
 				  <td>PChange24H_NZD_USD</td>
@@ -139,7 +166,7 @@
 				  <td>PMP5D_USD_CAD</td>
 				  <td>PMP1M_USD_CAD</td>
 				  <td>PGph_USD_CAD</td>
-				</tr>
+				</tr> -->
 			  </tbody>
 		</table>
 
